@@ -9,7 +9,6 @@ const server = app.listen(PORT, () => {
     console.log(`Server is running successfully on PORT  ${PORT}`)
 })
 
-//defaultData();
 
 process.on("unhandledRejection", (err, promise) => {
     console.log(`Logged Error: ${err.message}`);
