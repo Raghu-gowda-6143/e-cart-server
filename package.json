@@ -20,8 +20,8 @@
     "mongoose": "^5.13.7",
     "mongoose-auto-increment": "^5.0.1",
     "multer": "^1.4.3",
-    "paypal-rest-sdk": "^1.8.1",
     "sharp": "^0.29.0",
+    "stripe": "^8.190.0",
     "validator": "^13.6.0"
   },
   "devDependencies": {
