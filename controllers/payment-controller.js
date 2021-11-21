@@ -1,34 +1,22 @@
-const stripe = require('stripe')(process.env.SECRETE_KEY) 
+const secret = process.env.SECRET_KEY;
 
-exports.payment=  async (req, res)=>{ 
+const stripe = require('stripe')(secret)
 
-    // Moreover you can take more details from user 
-    // like Address, Name, etc from form 
-    stripe.customers.create({ 
-        email: req.body.stripeEmail, 
-        source: req.body.stripeToken, 
-        name: 'Gautam Sharma', 
-        address: { 
-            line1: 'TC 9/4 Old MES colony', 
-            postal_code: '110092', 
-            city: 'New Delhi', 
-            state: 'Delhi', 
-            country: 'India', 
-        } 
-    }) 
-    .then((customer) => { 
+exports.payment = async(req, res) => {
+    const { tokenId, amount } = req.body;
 
-        return stripe.charges.create({ 
-            amount: 7000,    // Charing Rs 25 
-            description: 'Web Development Product', 
-            currency: 'USD', 
-            customer: customer.id 
-        }); 
-    }) 
-    .then((charge) => { 
-        res.send("Success") // If no error occurs 
-    }) 
-    .catch((err) => { 
-        res.send(err)    // If some error occurs 
-    }); 
-} 
+    stripe.charges.create({
+            source: tokenId,
+            amount,
+            currency: "INR"
+        },
+        (stripeErr, stripeRes) => {
+            if (stripeErr) {
+                res.status(500).json(stripeErr);
+            } else {
+                res.status(200).json(stripeRes)
+            }
+        }
+    )
+
+};

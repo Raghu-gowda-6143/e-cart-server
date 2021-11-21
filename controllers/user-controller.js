@@ -2,7 +2,7 @@ const User = require("../models/userSchema");
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account');
 
 
-exports.signUp = async (req, res, next) => {
+exports.signUp = async(req, res, next) => {
 
     const user = await new User(req.body);
     const name = user.first_name + user.last_name;
@@ -25,7 +25,7 @@ exports.signUp = async (req, res, next) => {
 
 };
 
-exports.logIn = async (req, res, next) => {
+exports.logIn = async(req, res, next) => {
     try {
         const user = await User.findByCredentials(req.body.user_name, req.body.password)
         const token = await user.generateAuthToken()
@@ -42,7 +42,7 @@ exports.logIn = async (req, res, next) => {
 };
 
 
-exports.logOut = async (req, res, next) => {
+exports.logOut = async(req, res, next) => {
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token
@@ -60,7 +60,7 @@ exports.logOut = async (req, res, next) => {
 
 };
 
-exports.logOutAll = async (req, res) => {
+exports.logOutAll = async(req, res) => {
     try {
         req.user.tokens = []
         await req.user.save()
@@ -75,7 +75,7 @@ exports.logOutAll = async (req, res) => {
 };
 
 
-exports.edit = async (req, res, next) => {
+exports.edit = async(req, res, next) => {
 
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'phone']
@@ -102,7 +102,7 @@ exports.edit = async (req, res, next) => {
     }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async(req, res) => {
     const name = req.user.first_name + req.user.last_name;
 
     try {
@@ -117,5 +117,3 @@ exports.deleteUser = async (req, res) => {
 
     }
 };
-
-

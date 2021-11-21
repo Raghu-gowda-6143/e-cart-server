@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.methods.toJSON = function () {
+userSchema.methods.toJSON = function() {
     const user = this
     const userObject = user.toObject()
 
@@ -75,7 +75,7 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function() {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
 
@@ -85,7 +85,7 @@ userSchema.methods.generateAuthToken = async function () {
     return token
 }
 
-userSchema.statics.findByCredentials = async (user_name, password) => {
+userSchema.statics.findByCredentials = async(user_name, password) => {
     const user = await User.findOne({ user_name })
 
     if (!user) {
@@ -102,7 +102,7 @@ userSchema.statics.findByCredentials = async (user_name, password) => {
 }
 
 // Hash the plain text password before saving
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
     const user = this
 
     if (user.isModified('password')) {
@@ -113,7 +113,7 @@ userSchema.pre('save', async function (next) {
 })
 
 // Delete user cart when user is removed
-userSchema.pre('remove', async function (next) {
+userSchema.pre('remove', async function(next) {
     const user = this
     await Cart.deleteMany({ user: req.user._id })
     next()
